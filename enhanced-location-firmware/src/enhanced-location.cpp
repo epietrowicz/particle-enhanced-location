@@ -35,9 +35,9 @@ void loop()
 
 void publishLoc()
 {
-  if (Cellular.ready())
+  if (!Cellular.ready())
   {
-    Log.info("Cellular is ready, obtaining CGI info");
+    Log.error("Cellular is not ready");
     return;
   }
 
@@ -46,7 +46,7 @@ void publishLoc()
   int res = QuectelTowerRK::instance().scanBlocking(towerInfo);
   if (res != SYSTEM_ERROR_NONE)
   {
-    Log.info("Failed to obtain CGI: res=%d", res);
+    Log.error("Failed to obtain CGI: res=%d", res);
     return;
   }
   towerInfo.log("towerInfo", LOG_LEVEL_INFO);
@@ -57,7 +57,7 @@ void publishLoc()
 
   Variant loc;
   loc.set("lck", 0);
-  loc.set("time", millis());
+  loc.set("time", Time.now());
   obj.set("loc", loc);
   obj.set("towers", towers);
 
@@ -71,14 +71,11 @@ void publishLoc()
   // Wait while sending (blocking)
   waitForNot(event.isSending, 60000);
 
-  if (event.isSent())
+  if (!event.isOk())
   {
-    Log.info("publish succeeded");
-    event.clear();
+    Log.error("publish failed error=%d", event.error());
+    return;
   }
-  else if (!event.isOk())
-  {
-    Log.info("publish failed error=%d", event.error());
-    event.clear();
-  }
+  Log.info("publish succeeded");
+  event.clear();
 }
