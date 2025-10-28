@@ -1,0 +1,3 @@
+# How to used Particle’s Enhanced Location service to locate a device without GPS
+
+Particle offers a number of devices with internal GPS modules, but what if that device doesn’t always have a reliable GPS fix? [Location fusion](https://docs.particle.io/reference/tracker/location-fusion/) was designed to “fill in the gaps” left by GPS connectivity. We can pass along the details of the currently connected cell tower in order to estimate the device’s location at any given moment. However, it’s worth noting that the theoretical [worst case estimation](https://docs.particle.io/getting-started/cloud/location/#cell-tower-scan) is up to 10 kilometers, so don’t rely on this method for anything mission critical.
