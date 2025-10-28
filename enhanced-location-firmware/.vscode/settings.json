@@ -6,6 +6,6 @@
         "chrono": "cpp",
         "bitset": "cpp"
     },
-    "particle.targetPlatform": "boron",
+    "particle.targetPlatform": "msom",
     "particle.firmwareVersion": "6.3.4"
 }
